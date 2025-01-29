@@ -9,7 +9,6 @@
 <body>
     <div class="scanline"></div>
     <div class="container">
-	
         <h1 class="neon" data-text=">_SYSTEM_ACTIVE">>_SYSTEM_ACTIVE</h1>
         
         <div class="grid"></div>
@@ -18,16 +17,27 @@
             <div id="output" class="text-glitch"></div>
         </div>
 
-        <div class="button-group">
-            <button class="cyber-button" id="btn1">HACK_MAINFRAME</button>
-            <button class="cyber-button" id="btn2">UPLOAD_DAEMON</button>
-            <button class="cyber-button" id="btn3">INITIATE_SEQUENCE</button>
-            <button class="cyber-button" id="musicToggle">MUSIC: ON</button>
+        <div class="button-container">
+            <div class="left-buttons">
+                <button class="cyber-button" id="btn1">HACK_MAINFRAME</button>
+                <button class="cyber-button" id="btn2">UPLOAD_DAEMON</button>
+            </div>
+            <div class="right-buttons">
+                <button class="cyber-button" id="btn3">INITIATE_SEQUENCE</button>
+                <button class="cyber-button" id="musicToggle">MUSIC: ON</button>
+            </div>
+        </div>
+
+        <div class="footer neon">
+            <div class="cyber-line"></div>
+            <p>>_COPYRIGHT_2077 JaUrillGameZXX</p>
+            <p>>_ALL_SYSTEMS_OPERATIONAL</p>
         </div>
     </div>
 
     <audio id="backgroundMusic" loop>
-        <source src=audio/Ja Mi - Along the Bright Alley.mp3>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-ambition-289.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
 
     <script src="script.js"></script>
