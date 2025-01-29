@@ -169,3 +169,20 @@ document.addEventListener('DOMContentLoaded', () => {
         musicToggle.disabled = true;
     });
 });
+// В конец скрипта добавьте
+window.addEventListener('resize', () => {
+    if (window.visualViewport) {
+        document.documentElement.style.setProperty('--vh', `${window.visualViewport.height * 0.01}px`);
+    }
+});
+
+// Обработка мобильного ввода
+document.addEventListener('touchstart', function(e) {
+    if (!e.target.classList.contains('cyber-button')) return;
+    e.target.classList.add('active');
+});
+
+document.addEventListener('touchend', function(e) {
+    if (!e.target.classList.contains('cyber-button')) return;
+    e.target.classList.remove('active');
+});

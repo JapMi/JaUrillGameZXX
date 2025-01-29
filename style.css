@@ -46,6 +46,37 @@ body {
     pointer-events: none;
 }
 
+.tv-effect {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+    animation: tvFlicker 0.15s infinite;
+    display: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15) 0px,
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+body.light-theme .tv-effect {
+    display: block;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.1) 0px,
+        rgba(0,0,0,0.1) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+}
+
 .controls {
     position: fixed;
     top: 10px;
@@ -84,6 +115,12 @@ body {
 
 .neon-icon {
     filter: drop-shadow(0 0 2px var(--neon-cyan));
+    cursor: pointer;
+    transition: filter 0.3s;
+}
+
+.neon-icon:hover {
+    filter: drop-shadow(0 0 5px var(--neon-cyan));
 }
 
 .container {
@@ -232,6 +269,12 @@ body {
     100% { transform: translateX(100%); }
 }
 
+@keyframes tvFlicker {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0.1; }
+}
+
 @media (max-width: 768px) {
     :root {
         --grid-size: 15px;
@@ -286,14 +329,6 @@ body {
         transform: skew(-10deg);
     }
 }
-.neon-icon {
-    cursor: pointer;
-    transition: filter 0.3s;
-}
-
-.neon-icon:hover {
-    filter: drop-shadow(0 0 5px var(--neon-cyan));
-}
 
 input[type="range"] {
     transition: opacity 0.3s;
@@ -301,4 +336,134 @@ input[type="range"] {
 
 input[type="range"]:disabled {
     opacity: 0.5;
+}
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    :root {
+        --grid-size: 12px;
+        --base-font: 0.8rem;
+    }
+
+    .container {
+        padding: 0.5rem;
+        min-height: calc(var(--vh, 1vh) * 100);
+    }
+
+    .neon {
+        font-size: 1.4rem;
+        margin: 0.5rem 0;
+    }
+
+    .terminal {
+        width: 98%;
+        min-height: 120px;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+    }
+
+    .button-container {
+        width: 100%;
+        gap: 0.8rem;
+        margin: 0.5rem 0;
+    }
+
+    .cyber-button {
+        width: 100%;
+        min-width: unset;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .controls {
+        top: 5px;
+        left: 5px;
+        gap: 0.5rem;
+    }
+
+    .mixer {
+        padding: 0.3rem;
+    }
+
+    #volume {
+        width: 80px;
+    }
+
+    .footer {
+        position: relative;
+        margin-top: auto;
+        padding: 0.5rem;
+    }
+
+    .footer p {
+        font-size: 0.7rem;
+    }
+
+    .text-glitch {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .tv-effect {
+        animation-duration: 0.3s;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --grid-size: 8px;
+        --base-font: 0.7rem;
+    }
+
+    .neon {
+        font-size: 1.2rem;
+    }
+
+    .cyber-button {
+        padding: 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #volume {
+        width: 70px;
+    }
+
+    .terminal {
+        min-height: 100px;
+    }
+
+    .text-glitch {
+        font-size: 0.8rem;
+    }
+}
+
+/* Оптимизация анимаций для мобильных */
+@media (prefers-reduced-motion: reduce) {
+    .scanline,
+    .cyber-line,
+    .text-glitch {
+        animation: none;
+    }
+}
+
+/* Улучшение касаний */
+@media (pointer: coarse) {
+    .cyber-button {
+        min-height: 48px;
+        padding: 1.2rem;
+        touch-action: manipulation;
+    }
+    
+    .cyber-button::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
 }
