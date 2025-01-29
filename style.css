@@ -24,6 +24,14 @@ body.light-theme {
     --terminal-bg: rgba(255, 255, 255, 0.9);
 }
 
+body.matrix-theme {
+    --bg-color: #001100;
+    --text-color: #00ff00;
+    --neon-pink: #00ff00;
+    --neon-cyan: #00ff00;
+    --terminal-bg: rgba(0, 20, 0, 0.9);
+}
+
 body {
     background-color: var(--bg-color);
     margin: 0;
@@ -46,35 +54,8 @@ body {
     pointer-events: none;
 }
 
-.tv-effect {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.1;
-    animation: tvFlicker 0.15s infinite;
-    display: none;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0,0,0,0.15) 0px,
-        rgba(0,0,0,0.15) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-}
-
-body.light-theme .tv-effect {
-    display: block;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0,0,0,0.1) 0px,
-        rgba(0,0,0,0.1) 1px,
-        transparent 1px,
-        transparent 3px
-    );
+body.matrix-theme .scanline {
+    background: rgba(0, 255, 0, 0.3);
 }
 
 .controls {
@@ -119,10 +100,6 @@ body.light-theme .tv-effect {
     transition: filter 0.3s;
 }
 
-.neon-icon:hover {
-    filter: drop-shadow(0 0 5px var(--neon-cyan));
-}
-
 .container {
     padding: 1rem;
     min-height: 100vh;
@@ -144,7 +121,7 @@ body.light-theme .tv-effect {
     position: relative;
 }
 
-.terminal {
+.cyber-terminal {
     border: 3px solid var(--neon-pink);
     padding: 1rem;
     margin: 1rem 0;
@@ -156,28 +133,13 @@ body.light-theme .tv-effect {
     backdrop-filter: blur(2px);
 }
 
-.button-container {
-    display: flex;
-    justify-content: space-between;
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     width: 90%;
     max-width: 800px;
     margin: 1rem 0;
-    gap: 2rem;
-}
-
-.left-buttons, .right-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex: 1;
-}
-
-.left-buttons {
-    align-items: flex-start;
-}
-
-.right-buttons {
-    align-items: flex-end;
 }
 
 .cyber-button {
@@ -189,400 +151,14 @@ body.light-theme .tv-effect {
     cursor: pointer;
     transition: all 0.3s;
     text-transform: uppercase;
-    min-width: 200px;
-    text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.cyber-button.small {
-    min-width: auto;
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
-}
-
-.grid {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: 
-        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-    pointer-events: none;
-    z-index: -1;
-}
-
-.text-glitch {
-    animation: glitch 2s infinite;
-    min-height: 100px;
-}
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 1rem;
-    text-align: center;
-    background: var(--terminal-bg);
-    border-top: 2px solid var(--neon-pink);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-    z-index: 1000;
-}
-
-.footer p {
-    margin: 0.5rem;
-    font-size: 0.8rem;
-    text-shadow: 0 0 5px var(--neon-cyan);
-}
-
-.cyber-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-    animation: lineScan 3s linear infinite;
-}
-
-@keyframes scan {
-    0% { top: -2px; }
-    100% { top: 100%; }
-}
-
-@keyframes flicker {
-    0% { opacity: 0.8; }
-    100% { opacity: 1; }
-}
-
-@keyframes glitch {
-    0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
-    50% { text-shadow: -2px 2px var(--neon-pink), 2px -2px var(--neon-cyan); }
-    100% { text-shadow: 2px -2px var(--neon-pink), -2px 2px var(--neon-cyan); }
-}
-
-@keyframes lineScan {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-@keyframes tvFlicker {
-    0% { opacity: 0.1; }
-    50% { opacity: 0.2; }
-    100% { opacity: 0.1; }
-}
-
-@media (max-width: 768px) {
-    :root {
-        --grid-size: 15px;
-        --base-font: 0.9rem;
-    }
-
-    .neon {
-        font-size: calc(var(--base-font) * 1.8);
-    }
-
-    .cyber-button {
-        width: 100%;
-        min-width: auto;
-    }
-
-    .button-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .left-buttons, .right-buttons {
-        align-items: center;
-        width: 100%;
-    }
-    
-    .footer {
-        position: relative;
-        margin-top: auto;
-    }
-}
-
-@media (max-width: 480px) {
-    :root {
-        --grid-size: 10px;
-        --base-font: 0.8rem;
-    }
-
-    .container {
-        padding: 0.5rem;
-    }
-
-    .neon {
-        font-size: calc(var(--base-font) * 1.5);
-    }
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .cyber-button:hover {
-        background: var(--neon-pink);
-        color: var(--bg-color);
-        box-shadow: 0 0 20px var(--neon-pink);
-        transform: skew(-10deg);
-    }
-}
-
-input[type="range"] {
-    transition: opacity 0.3s;
-}
-
-input[type="range"]:disabled {
-    opacity: 0.5;
-}
-/* Мобильная адаптация */
-@media (max-width: 768px) {
-    :root {
-        --grid-size: 12px;
-        --base-font: 0.8rem;
-    }
-
-    .container {
-        padding: 0.5rem;
-        min-height: calc(var(--vh, 1vh) * 100);
-    }
-
-    .neon {
-        font-size: 1.4rem;
-        margin: 0.5rem 0;
-    }
-
-    .terminal {
-        width: 98%;
-        min-height: 120px;
-        padding: 0.8rem;
-        margin: 0.5rem 0;
-    }
-
-    .button-container {
-        width: 100%;
-        gap: 0.8rem;
-        margin: 0.5rem 0;
-    }
-
-    .cyber-button {
-        width: 100%;
-        min-width: unset;
-        padding: 1rem;
-        font-size: 0.9rem;
-    }
-
-    .controls {
-        top: 5px;
-        left: 5px;
-        gap: 0.5rem;
-    }
-
-    .mixer {
-        padding: 0.3rem;
-    }
-
-    #volume {
-        width: 80px;
-    }
-
-    .footer {
-        position: relative;
-        margin-top: auto;
-        padding: 0.5rem;
-    }
-
-    .footer p {
-        font-size: 0.7rem;
-    }
-
-    .text-glitch {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    .tv-effect {
-        animation-duration: 0.3s;
-    }
-}
-
-@media (max-width: 480px) {
-    :root {
-        --grid-size: 8px;
-        --base-font: 0.7rem;
-    }
-
-    .neon {
-        font-size: 1.2rem;
-    }
-
-    .cyber-button {
-        padding: 0.8rem;
-        font-size: 0.8rem;
-    }
-
-    .controls {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #volume {
-        width: 70px;
-    }
-
-    .terminal {
-        min-height: 100px;
-    }
-
-    .text-glitch {
-        font-size: 0.8rem;
-    }
-}
-
-/* Мобильная версия */
-@media (max-width: 767px) {
-    :root {
-        --grid-size: 10px;
-        --base-font: 14px;
-    }
-
-    body {
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .container {
-        padding: 8px;
-        min-height: calc(100vh - env(safe-area-inset-bottom));
-    }
-
-    .neon {
-        font-size: 1.6rem;
-        margin: 15px 0;
-        line-height: 1.3;
-    }
-
-    .terminal {
-        width: 96%;
-        min-height: 120px;
-        padding: 12px;
-        margin: 12px 0;
-        border-width: 2px;
-    }
-
-    .button-container {
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
-    }
-
-    .left-buttons, .right-buttons {
-        width: 100%;
-        align-items: stretch;
-    }
-
-    .cyber-button {
-        width: 100%;
-        min-width: auto;
-        padding: 14px;
-        font-size: 0.9rem;
-        touch-action: manipulation;
-    }
-
-    .controls {
-        top: 5px;
-        left: 5px;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-    }
-
-    .mixer {
-        padding: 6px;
-        backdrop-filter: blur(5px);
-    }
-
-    #volume {
-        width: 90px;
-    }
-
-    .footer {
-        position: static;
-        margin-top: auto;
-        padding: 10px;
-        border-top: 1px solid var(--neon-pink);
-    }
-
-    .text-glitch {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    /* Оптимизация анимаций */
-    .scanline {
-        animation-duration: 4s;
-    }
-
-    .cyber-line {
-        animation: lineScanMobile 6s linear infinite;
-    }
-
-    @keyframes lineScanMobile {
-        0% { transform: translateX(-150%); }
-        100% { transform: translateX(150%); }
-    }
-}
-
-/* Вертикальная ориентация */
-@media (max-width: 767px) and (orientation: portrait) {
-    .terminal {
-        min-height: 25vh;
-    }
-}
-
-/* Горизонтальная ориентация */
-@media (max-width: 767px) and (orientation: landscape) {
-    .neon {
-        font-size: 1.4rem;
-    }
-    
-    .terminal {
-        min-height: 15vh;
-    }
-}
-
-/* Очень маленькие экраны */
-@media (max-width: 360px) {
-    :root {
-        --base-font: 13px;
-    }
-
-    .neon {
-        font-size: 1.3rem;
-    }
-
-    .cyber-button {
-        padding: 12px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Отключение анимаций при настройке */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
-}
-/* Основные стили остаются как прежде, добавляем новые эффекты */
-
-/* Голографические кнопки */
-.hologram {
-    position: relative;
-    overflow: visible;
-    background: transparent !important;
-    border: 2px solid var(--neon-cyan);
-    box-shadow: 0 0 30px var(--neon-cyan);
+.cyber-button:hover {
+    background: var(--neon-pink);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px var(--neon-pink);
 }
 
 .hologram-effect {
@@ -607,209 +183,29 @@ input[type="range"]:disabled {
     100% { filter: hue-rotate(360deg); opacity: 0.3; }
 }
 
-/* Анимированный фон с частицами */
-.particles {
+.error-fall {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%230ff'/%3E%3C/svg%3E");
-    background-size: 3px 3px;
-    opacity: 0.1;
-    animation: particles 20s linear infinite;
-}
-
-@keyframes particles {
-    from { transform: translateY(0) translateX(0); }
-    to { transform: translateY(-1000px) translateX(1000px); }
-}
-
-/* Эффект старого монитора */
-.crt-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(0deg, 
-        rgba(0,255,255,0.1) 0%,
-        rgba(0,255,255,0.1) 3%,
-        transparent 3%,
-        transparent 97%,
-        rgba(0,255,255,0.1) 97%,
-        rgba(0,255,255,0.1) 100%
-    );
-    pointer-events: none;
-    animation: crt 0.1s infinite;
-}
-
-@keyframes crt {
-    0% { opacity: 0.9; }
-    50% { opacity: 1; }
-    100% { opacity: 0.9; }
-}
-
-/* Интерактивный терминал */
-.cyber-terminal {
-    border: 3px solid var(--neon-pink);
-    background: rgba(0,0,0,0.9);
-    padding: 20px;
-    position: relative;
-    margin: 20px 0;
-}
-
-.hud {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.bar {
-    height: 8px;
-    width: 100px;
-    background: #002;
-    position: relative;
-    overflow: hidden;
-}
-
-.bar::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: var(--progress);
-    background: var(--neon-cyan);
-    animation: pulse 2s infinite;
-}
-
-.input-line {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-#commandInput {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--neon-cyan);
+    top: -50px;
+    color: #ff0000;
     font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    padding: 5px;
-}
-
-#commandInput:focus {
-    outline: none;
-    box-shadow: 0 0 10px var(--neon-cyan);
-}
-
-/* Анимация загрузки */
-.cyber-loader {
-    height: 10px;
-    background: #002;
-    position: relative;
-    margin: 20px 0;
-    overflow: hidden;
-}
-
-.loader-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 30%;
-    background: var(--neon-pink);
-    animation: loader 3s infinite;
-    filter: drop-shadow(0 0 10px var(--neon-pink));
-}
-
-@keyframes loader {
-    0% { left: -30%; }
-    100% { left: 130%; }
-}
-
-/* 3D эффекты */
-.cyber-overlay {
-    perspective: 1000px;
-}
-
-.glitch-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(255,0,255,0.1) 0px,
-        rgba(255,0,255,0.1) 1px,
-        transparent 1px,
-        transparent 3px
-    );
-    animation: glitchOverlay 5s infinite;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff0000;
+    opacity: 0.7;
     pointer-events: none;
+    z-index: 9998;
+    animation: errorFall 3s linear infinite;
 }
 
-@keyframes glitchOverlay {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
-}
-/* Matrix Theme */
-body.matrix-theme {
-    --bg-color: #001100;
-    --text-color: #00ff00;
-    --neon-pink: #00ff00;
-    --neon-cyan: #00ff00;
-    --terminal-bg: rgba(0, 20, 0, 0.9);
+@keyframes errorFall {
+    0% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(100vh) rotate(-10deg); opacity: 0; }
 }
 
-body.matrix-theme .scanline {
-    background: rgba(0, 255, 0, 0.3);
+body.matrix-theme .error-fall-effect {
+    display: none;
 }
 
-body.matrix-theme .cyber-line {
-    background: linear-gradient(90deg, transparent, #00ff00, transparent);
-}
-
-body.matrix-theme .cyber-button {
-    border-color: #00ff00;
-    color: #00ff00;
-}
-
-body.matrix-theme .cyber-button:hover {
-    background: #00ff00;
-    color: #001100;
-    box-shadow: 0 0 20px #00ff00;
-}
-
-.matrix-text {
-    position: relative;
-    overflow: hidden;
-}
-
-.matrix-text::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    color: #00ff00;
-    z-index: -1;
-    animation: matrixGlitch 3s infinite;
-}
-
-@keyframes matrixGlitch {
-    0% { clip-path: inset(10% 0 90% 0); }
-    20% { clip-path: inset(80% 0 1% 0); }
-    40% { clip-path: inset(30% 0 1% 0); }
-    60% { clip-path: inset(10% 0 60% 0); }
-    80% { clip-path: inset(40% 0 1% 0); }
-    100% { clip-path: inset(10% 0 90% 0); }
-}
 .matrix-stream {
     position: fixed;
     top: -100px;
@@ -823,4 +219,71 @@ body.matrix-theme .cyber-button:hover {
 @keyframes matrixFall {
     from { transform: translateY(-100vh); }
     to { transform: translateY(100vh); }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --grid-size: 15px;
+        --base-font: 0.9rem;
+    }
+    .button-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.access-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+}
+
+.access-box {
+    background: rgba(0,0,0,0.9);
+    padding: 2rem;
+    border: 3px solid #ff00ff;
+    box-shadow: 0 0 30px #ff00ff;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.cyber-input {
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: #000;
+    border: 2px solid #0ff;
+    color: #0ff;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.cyber-input:focus {
+    outline: none;
+    box-shadow: 0 0 20px #0ff;
+}
+
+.error-message {
+    color: #ff0066;
+    margin-top: 1rem;
+    text-shadow: 0 0 10px #ff0066;
+    display: none;
+}
+
+body.access-denied {
+    overflow: hidden;
+}
+
+body.access-denied .container,
+body.access-denied .controls {
+    filter: blur(10px) grayscale(100%);
+    pointer-events: none;
 }

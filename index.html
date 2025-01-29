@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <title>CYBERPUNK 2088</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
-    <!-- Визуальные эффекты -->
     <div class="cyber-overlay">
         <div class="particles"></div>
         <div class="scanline"></div>
         <div class="glitch-overlay"></div>
+        <div class="error-fall-effect"></div>
+		<div class="access-modal">
+    <div class="access-box">
+        <div class="neon">ДОСТУП К СИСТЕМЕ</div>
+        <input type="number" id="accessCode" class="cyber-input" placeholder="ВВЕДИТЕ КОД ДОСТУПА">
+        <button onclick="checkAccess()" class="cyber-button">ПОДТВЕРДИТЬ</button>
+        <div id="accessError" class="error-message"></div>
+    </div>
+</div>
     </div>
     
-    <!-- Панель управления -->
     <div class="controls">
         <div class="mixer">
             <span id="volumeIcon" class="neon-icon">🔊</span>
@@ -25,12 +30,9 @@
         <button id="themeToggle" class="cyber-button small">MATRIX MODE</button>
     </div>
 
-    <!-- Основной контент -->
     <div class="container">
-        <!-- Заголовок -->
         <h1 class="neon glitch" data-text=">_SYSTEM_ACTIVE">>_SYSTEM_ACTIVE</h1>
         
-        <!-- Терминал -->
         <div class="cyber-terminal">
             <div class="hud">
                 <div class="bar" data-type="cpu"></div>
@@ -44,7 +46,6 @@
             </div>
         </div>
 
-        <!-- Кнопки управления -->
         <div class="button-grid">
             <button class="cyber-button hologram" id="btn1">
                 <span class="hologram-effect"></span>
@@ -63,7 +64,6 @@
             </div>
         </div>
 
-        <!-- Футер -->
         <div class="cyber-footer">
             <div class="crt-effect"></div>
             <div class="cyber-line"></div>
@@ -71,13 +71,10 @@
         </div>
     </div>
 
-    <!-- Фоновая музыка -->
     <audio id="backgroundMusic" loop>
         <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/JAMI/JAMI/Along_the_Bright_Alley.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио элементы.
     </audio>
 
-    <!-- Скрипты -->
     <script src="script.js"></script>
 </body>
 </html>

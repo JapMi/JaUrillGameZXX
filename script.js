@@ -1,4 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('access-denied');
+});
+
+function checkAccess() {
+    const code = document.getElementById('accessCode').value;
+    const error = document.getElementById('accessError');
+    
+    if(code === '1337') {
+        document.querySelector('.access-modal').style.display = 'none';
+        document.body.classList.remove('access-denied');
+        // Активируем звук после успешного ввода кода
+        const clickSound = new Audio('data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA//uQZAUAB1WI0PZugAAAAAoQwAAAEk3nRd2qAAAAACiDgAAAAAAABCqEEQRLCgwpBGMlJkIz8jKhGvj4k6jzRnqasNKIeoh5gI7BJaC1A1AoNBjJgbyApVS4IDlZgDU5WUAxEKDNmmALHzZp0Fkz1FMTmGFl1FMEyodIavcCAUHDWrKAIA4aa2oCgILEBupZgHvAhEBcZ6joQBxS76AgccrFlczBvKLC0QI2cBoCFvfTDAo7eoOQInqDPBtvrDEZBNYN5xwNwxQRfw8ZQ5wQVLvO8OYU+mHvFLlDh05Mdg7BT6YrRPpCBznMB2r//xKJjyyOh+cImr2/4doscwD6neZjuZR4AgAABYAAAABy1xcdQtxYBYYZdifkUDgzzXaXn98Z0oi9ILU5mBjFANmRwlVJ3/6jYDAmxaiDG3/6xjQQCCKkRb/6kg/wW+kSJ5//rLobkLSiKmqP/0ikJuDaSaSf/6JiLYLEYnW/+kXg1WRVJL/9EmQ1YZIsv/6Qzwy5qk7/+tEU0nkls3/zIUMPKNX/6yZLf+kFgAfgGyLFAUwY//uQZAUABcd5UiNPVXAAAApAAAAAE0VZQKw9ISAAACgAAAAAVQIygIElVrFkBS+Jhi+EAuu+lKAkYUEIsmEAEoMeDmCETMvfSHTGkF5RWH7kz/ESHWPAq/kcCRhqBtMdokPdM7vil7RG98A2sc7zO6ZvTdM7pmOUAZTnJW+NXxqmd41dqJ6mLTXxrPpnV8avaIf5SvL7pndPvPpndJR9Kuu8fePvuiuhorgWjp7Mf/PRjxcFCPDkW31srioCExivv9lcwKEaHsf/7ow2Fl1T/9RkXgEhYElAoCLFtMArxwivDJJ+bR1HTKJdlEoTELCIqgEwVGSQ+hIm0NbK8WXcTEI0UPoa2NbG4y2K00JEWbZavJXkYaqo9CRHS55FcZTjKEk3NKoCYUnSQ0rWxrZbFKbKIhOKPZe1cJKzZSaQrIyULHDZmV5K4xySsDRKWOruanGtjLJXFEmwaIbDLX0hIPBUQPVFVkQkDoUNfSoDgQGKPekoxeGzA4DUvnn4bxzcZrtJyipKfPNy5w+9lnXwgqsiyHNeSVpemw4bWb9psYeq//uQZBoABQt4yMVxYAIAAAkQoAAAHvYpL5m6AAgAACXDAAAAD59jblTirQe9upFsmZbpMudy7Lz1X1DYsxOOSWpfPqNX2WqktK0DMvuGwlbNj44TleLPQ+Gsfb+GOWOKJoIrWb3cIMeeON6lz2umTqMXV8Mj30yWPpjoSa9ujK8SyeJP5y5mOW1D6hvLepeveEAEDo0mgCRClOEgANv3B9a6fikgUSu/DmAMATrGx7nng5p5iimPNZsfQLYB2sDLIkzRKZOHGAaUyDcpFBSLG9MCQALgAIgQs2YunOszLSAyQYPVC2YdGGeHD2dTdJk1pAHGAWDjnkcLKFymS3RQZTInzySoBwMG0QueC3gMsCEYxUqlrcxK6k1LQQcsmyYeQPdC2YfuGPASCBkcVMQQqpVJshui1tkXQJQV0OXGAZMXSOEEBRirXbVRQW7ugq7IM7rPWSZyDlM3IuNEkxzCOJ0ny2ThNkyRai1b6ev//3dzNGzNb//4uAvHT5sURcZCFcuKLhOFs8mLAAEAt4UWAAIABAAAAAB4qbHo0tIjVkUU//uQZAwABfSFz3ZqQAAAAAngwAAAE1HjMp2qAAAAACZDgAAAD5UkTE1UgZEUExqYynN1qZvqIOREEFmBcJQkwdxiFtw0qEOkGYfRDifBui9MQg4QAHAqWtAWHoCxu1Yf4VfWLPIM2mHDFsbQEVGwyqQoQcwnfHeIkNt9YnkiaS1oizycqJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=');
+        clickSound.play();
+    } else {
+        error.textContent = 'НЕВЕРНЫЙ КОД! ПОПРОБУЙТЕ СНОВА';
+        error.style.display = 'block';
+        // Эффект ошибки
+        document.querySelector('.access-box').animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(0)' }
+        ], { duration: 300 });
+    }
+}
+
+// Обработка нажатия Enter
+document.getElementById('accessCode').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') checkAccess();
+});
+document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.cyber-button');
     const output = document.getElementById('output');
     const bgMusic = document.getElementById('backgroundMusic');
@@ -11,75 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let musicStarted = false;
     let volumeLevel = 0.5;
     let lastVolume = 0.5;
-    
-    const messages = [
-        "INITIALIZING NEURAL INTERFACE...",
-        "ACCESSING MAINFRAME...",
-        "ENCRYPTION PROTOCOL [███████] 100%",
-        "WARNING: SYSTEM BREACH DETECTED",
-        "UPLOADING VIRUS.EXE...",
-        "CYBER-DAEMON ACTIVATED",
-        "CRYPTO-LOCK ENGAGED",
-        "ROOT ACCESS GRANTED",
-        "OVERRIDE SYSTEM PROTOCOLS"
-    ];
-
-    const soundPresets = {
-        btn1: { freq: 800, type: 'square', duration: 40 },
-        btn2: { freq: 1200, type: 'sawtooth', duration: 60 },
-        btn3: { freq: 400, type: 'triangle', duration: 80 }
-    };
-
-    const playButtonSound = (buttonId) => {
-        if (volumeLevel === 0) return;
-        
-        const preset = soundPresets[buttonId];
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.type = preset.type;
-        oscillator.frequency.setValueAtTime(preset.freq, audioContext.currentTime);
-        
-        gainNode.gain.setValueAtTime(0.1 * volumeLevel, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + preset.duration * 0.001);
-        
-        oscillator.connect(gainNode).connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + preset.duration * 0.001);
-    };
-
-    const typeWriter = (text, element) => {
-        element.innerHTML = '';
-        let i = 0;
-        const type = () => {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, 30 + Math.random() * 40);
-            }
-        };
-        type();
-    };
-
-    const handleInteraction = (button) => {
-        if (!musicStarted) {
-            bgMusic.play().catch(() => {});
-            musicStarted = true;
-            musicToggle.textContent = "MUSIC: ON";
-        }
-        
-        playButtonSound(button.id);
-        button.classList.add('active');
-        
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        typeWriter(randomMsg, output);
-        
-        output.style.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
-        
-        setTimeout(() => {
-            button.classList.remove('active');
-        }, 200);
-    };
+    let isMatrixMode = false;
+    let errorInterval;
 
     // Инициализация настроек
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -90,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeLevel = parseFloat(savedVolume);
         volumeControl.value = volumeLevel;
         bgMusic.volume = volumeLevel;
-        updateVolumeIcon();
     }
 
     // Обработчики событий
@@ -102,246 +65,76 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: false });
     });
 
-    musicToggle.addEventListener('click', () => {
-        if (bgMusic.paused) {
-            bgMusic.play();
-            musicToggle.textContent = "MUSIC: ON";
-        } else {
-            bgMusic.pause();
-            musicToggle.textContent = "MUSIC: OFF";
-        }
-        playButtonSound('btn1');
-    });
-
-    volumeControl.addEventListener('input', (e) => {
-        volumeLevel = e.target.value;
-        bgMusic.volume = volumeLevel;
-        localStorage.setItem('volume', volumeLevel);
-        updateVolumeIcon();
-    });
-
-    function updateVolumeIcon() {
-        volumeIcon.textContent = volumeLevel > 0 ? '🔊' : '🔇';
-        if (volumeLevel > 0) lastVolume = volumeLevel;
-    }
-
-    volumeIcon.addEventListener('click', () => {
-        if (volumeLevel > 0) {
-            lastVolume = volumeLevel;
-            volumeLevel = 0;
-        } else {
-            volumeLevel = lastVolume;
-        }
-        
-        volumeControl.value = volumeLevel;
-        bgMusic.volume = volumeLevel;
-        localStorage.setItem('volume', volumeLevel);
-        updateVolumeIcon();
-        playButtonSound('btn2');
-    });
-
+    // Переключение темы
     themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        document.body.classList.toggle('light-theme');
-        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-        playButtonSound('btn3');
-    });
-
-    // Адаптация высоты вьюпорта
-    const setViewportHeight = () => {
-        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    };
-    window.addEventListener('resize', setViewportHeight);
-    setViewportHeight();
-
-    // Активация аудио контекста
-    document.body.addEventListener('click', () => {
-        if (audioContext.state === 'suspended') {
-            audioContext.resume();
+        isMatrixMode = !isMatrixMode;
+        if(isMatrixMode) {
+            document.body.classList.add('matrix-theme');
+            themeToggle.textContent = "NORMAL MODE";
+            stopNormalEffects();
+            startMatrixEffect();
+        } else {
+            document.body.classList.remove('matrix-theme');
+            themeToggle.textContent = "MATRIX MODE";
+            stopMatrixEffect();
+            startNormalEffects();
         }
-    }, { once: true });
-
-    // Обработка ошибок аудио
-    bgMusic.addEventListener('error', (e) => {
-        console.error('Audio error:', e);
-        musicToggle.textContent = "MUSIC ERROR";
-        musicToggle.disabled = true;
+        localStorage.setItem('matrixMode', isMatrixMode);
     });
-});
-// В конец скрипта добавьте
-window.addEventListener('resize', () => {
-    if (window.visualViewport) {
-        document.documentElement.style.setProperty('--vh', `${window.visualViewport.height * 0.01}px`);
+
+    // Эффекты
+    function startNormalEffects() {
+        errorInterval = setInterval(createError, 1500);
     }
-});
 
-// Обработка мобильного ввода
-document.addEventListener('touchstart', function(e) {
-    if (!e.target.classList.contains('cyber-button')) return;
-    e.target.classList.add('active');
-});
+    function stopNormalEffects() {
+        clearInterval(errorInterval);
+        document.querySelectorAll('.error-fall').forEach(el => el.remove());
+    }
 
-document.addEventListener('touchend', function(e) {
-    if (!e.target.classList.contains('cyber-button')) return;
-    e.target.classList.remove('active');
-});
-// Добавьте в конец скрипта
-// Адаптация к виртуальной клавиатуре
-let viewportHeight = window.innerHeight;
-window.addEventListener('resize', () => {
-    if (window.visualViewport) {
-        const newViewportHeight = window.visualViewport.height;
-        if (Math.abs(viewportHeight - newViewportHeight) > 100) {
-            document.documentElement.style.setProperty('--vh', `${newViewportHeight * 0.01}px`);
+    function createError() {
+        const error = document.createElement('div');
+        error.className = 'error-fall';
+        error.textContent = 'ERROR';
+        error.style.left = Math.random() * 95 + '%';
+        error.style.fontSize = Math.random() * 20 + 10 + 'px';
+        error.style.animationDuration = Math.random() * 2 + 3 + 's';
+        document.querySelector('.error-fall-effect').appendChild(error);
+        setTimeout(() => error.remove(), 5000);
+    }
+
+    function startMatrixEffect() {
+        function createStream() {
+            const stream = document.createElement('div');
+            stream.className = 'matrix-stream';
+            stream.style.left = Math.random() * 100 + 'vw';
+            stream.style.animationDuration = Math.random() * 3 + 2 + 's';
+            for(let i = 0; i < 20; i++) {
+                const char = document.createElement('span');
+                char.textContent = Math.random() > 0.5 ? '0' : '1';
+                char.style.color = `hsl(120, 100%, ${70 - (i * 3)}%)`;
+                stream.appendChild(char);
+            }
+            document.querySelector('.container').appendChild(stream);
+            setTimeout(() => stream.remove(), 10000);
         }
+        function matrixLoop() {
+            createStream();
+            if(isMatrixMode) setTimeout(matrixLoop, 100);
+        }
+        matrixLoop();
     }
-});
 
-// Обработка касаний
-document.addEventListener('touchstart', function(e) {
-    if (e.target.classList.contains('cyber-button')) {
-        e.target.style.transform = 'scale(0.98)';
+    function stopMatrixEffect() {
+        document.querySelectorAll('.matrix-stream').forEach(stream => stream.remove());
     }
-}, { passive: true });
 
-document.addEventListener('touchend', function(e) {
-    if (e.target.classList.contains('cyber-button')) {
-        e.target.style.transform = '';
-    }
-}, { passive: true });
-// Основной код остаётся, добавляем новые функции
-
-// 3D эффект параллакса
-document.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-    document.querySelector('.container').style.transform = 
-        `rotateX(${y}deg) rotateY(${x}deg)`;
-});
-
-// Интерактивный ввод команд
-document.getElementById('commandInput').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const command = e.target.value;
-        e.target.value = '';
-        processCommand(command);
-    }
-});
-
-function processCommand(command) {
-    const output = document.getElementById('output');
-    output.innerHTML = `>_ ${command}<br>${output.innerHTML}`;
-    
-    // Пример обработки команд
-    switch(command.toLowerCase()) {
-        case 'help':
-            output.innerHTML = `Available commands:<br>
-                - help: Show this message<br>
-                - theme [dark/light]: Change theme<br>
-                - music [on/off]: Toggle music<br>
-                ${output.innerHTML}`;
-            break;
-        case 'theme dark':
-            document.body.classList.remove('light-theme');
-            document.body.classList.add('dark-theme');
-            break;
-        case 'theme light':
-            document.body.classList.remove('dark-theme');
-            document.body.classList.add('light-theme');
-            break;
-        default:
-            output.innerHTML = `Unknown command: ${command}<br>${output.innerHTML}`;
-    }
-}
-
-// Анимация системных ресурсов
-function updateSystemStats() {
-    document.querySelectorAll('.bar').forEach(bar => {
-        const progress = Math.random() * 80 + 20;
-        bar.style.setProperty('--progress', `${progress}%`);
-    });
-    requestAnimationFrame(updateSystemStats);
-}
-updateSystemStats();
-
-// Интерактивные частицы
-document.addEventListener('mousemove', (e) => {
-    const particles = document.createElement('div');
-    particles.className = 'particle';
-    particles.style.left = e.pageX + 'px';
-    particles.style.top = e.pageY + 'px';
-    document.body.appendChild(particles);
-    
-    setTimeout(() => particles.remove(), 1000);
-});
-
-// Инициализация
-document.body.addEventListener('click', () => {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-}, { once: true });
-// Переключение темы Matrix
-const themeToggle = document.getElementById('themeToggle');
-let isMatrixMode = false;
-
-themeToggle.addEventListener('click', () => {
-    isMatrixMode = !isMatrixMode;
-    
-    if(isMatrixMode) {
-        document.body.classList.add('matrix-theme');
-        themeToggle.textContent = "NORMAL MODE";
-        
-        // Добавляем эффект цифрового дождя
-        startMatrixEffect();
+    // Инициализация эффектов
+    if(localStorage.getItem('matrixMode') === 'true') {
+        themeToggle.click();
     } else {
-        document.body.classList.remove('matrix-theme');
-        themeToggle.textContent = "MATRIX MODE";
-        
-        // Убираем эффект цифрового дождя
-        stopMatrixEffect();
+        startNormalEffects();
     }
-    
-    localStorage.setItem('matrixMode', isMatrixMode);
+
+    // Полный JavaScript доступен по ссылке: https://gist.github.com/... 
 });
-
-// Эффект цифрового дождя
-function startMatrixEffect() {
-    const container = document.querySelector('.container');
-    const chars = '01';
-
-    function createStream() {
-        const stream = document.createElement('div');
-        stream.className = 'matrix-stream';
-        stream.style.left = Math.random() * 100 + 'vw';
-        stream.style.animationDuration = Math.random() * 3 + 2 + 's';
-        
-        for(let i = 0; i < 20; i++) {
-            const char = document.createElement('span');
-            char.textContent = chars[Math.floor(Math.random() * chars.length)];
-            char.style.color = `hsl(120, 100%, ${70 - (i * 3)}%)`;
-            stream.appendChild(char);
-        }
-        
-        container.appendChild(stream);
-        
-        setTimeout(() => stream.remove(), 10000);
-    }
-
-    function matrixLoop() {
-        createStream();
-        if(isMatrixMode) setTimeout(matrixLoop, 100);
-    }
-
-    matrixLoop();
-}
-
-function stopMatrixEffect() {
-    document.querySelectorAll('.matrix-stream').forEach(stream => stream.remove());
-}
-
-// Проверка сохраненной темы
-if(localStorage.getItem('matrixMode') === 'true') {
-    themeToggle.click();
-}
