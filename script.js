@@ -186,3 +186,162 @@ document.addEventListener('touchend', function(e) {
     if (!e.target.classList.contains('cyber-button')) return;
     e.target.classList.remove('active');
 });
+// Добавьте в конец скрипта
+// Адаптация к виртуальной клавиатуре
+let viewportHeight = window.innerHeight;
+window.addEventListener('resize', () => {
+    if (window.visualViewport) {
+        const newViewportHeight = window.visualViewport.height;
+        if (Math.abs(viewportHeight - newViewportHeight) > 100) {
+            document.documentElement.style.setProperty('--vh', `${newViewportHeight * 0.01}px`);
+        }
+    }
+});
+
+// Обработка касаний
+document.addEventListener('touchstart', function(e) {
+    if (e.target.classList.contains('cyber-button')) {
+        e.target.style.transform = 'scale(0.98)';
+    }
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+    if (e.target.classList.contains('cyber-button')) {
+        e.target.style.transform = '';
+    }
+}, { passive: true });
+// Основной код остаётся, добавляем новые функции
+
+// 3D эффект параллакса
+document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    document.querySelector('.container').style.transform = 
+        `rotateX(${y}deg) rotateY(${x}deg)`;
+});
+
+// Интерактивный ввод команд
+document.getElementById('commandInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const command = e.target.value;
+        e.target.value = '';
+        processCommand(command);
+    }
+});
+
+function processCommand(command) {
+    const output = document.getElementById('output');
+    output.innerHTML = `>_ ${command}<br>${output.innerHTML}`;
+    
+    // Пример обработки команд
+    switch(command.toLowerCase()) {
+        case 'help':
+            output.innerHTML = `Available commands:<br>
+                - help: Show this message<br>
+                - theme [dark/light]: Change theme<br>
+                - music [on/off]: Toggle music<br>
+                ${output.innerHTML}`;
+            break;
+        case 'theme dark':
+            document.body.classList.remove('light-theme');
+            document.body.classList.add('dark-theme');
+            break;
+        case 'theme light':
+            document.body.classList.remove('dark-theme');
+            document.body.classList.add('light-theme');
+            break;
+        default:
+            output.innerHTML = `Unknown command: ${command}<br>${output.innerHTML}`;
+    }
+}
+
+// Анимация системных ресурсов
+function updateSystemStats() {
+    document.querySelectorAll('.bar').forEach(bar => {
+        const progress = Math.random() * 80 + 20;
+        bar.style.setProperty('--progress', `${progress}%`);
+    });
+    requestAnimationFrame(updateSystemStats);
+}
+updateSystemStats();
+
+// Интерактивные частицы
+document.addEventListener('mousemove', (e) => {
+    const particles = document.createElement('div');
+    particles.className = 'particle';
+    particles.style.left = e.pageX + 'px';
+    particles.style.top = e.pageY + 'px';
+    document.body.appendChild(particles);
+    
+    setTimeout(() => particles.remove(), 1000);
+});
+
+// Инициализация
+document.body.addEventListener('click', () => {
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+}, { once: true });
+// Переключение темы Matrix
+const themeToggle = document.getElementById('themeToggle');
+let isMatrixMode = false;
+
+themeToggle.addEventListener('click', () => {
+    isMatrixMode = !isMatrixMode;
+    
+    if(isMatrixMode) {
+        document.body.classList.add('matrix-theme');
+        themeToggle.textContent = "NORMAL MODE";
+        
+        // Добавляем эффект цифрового дождя
+        startMatrixEffect();
+    } else {
+        document.body.classList.remove('matrix-theme');
+        themeToggle.textContent = "MATRIX MODE";
+        
+        // Убираем эффект цифрового дождя
+        stopMatrixEffect();
+    }
+    
+    localStorage.setItem('matrixMode', isMatrixMode);
+});
+
+// Эффект цифрового дождя
+function startMatrixEffect() {
+    const container = document.querySelector('.container');
+    const chars = '01';
+
+    function createStream() {
+        const stream = document.createElement('div');
+        stream.className = 'matrix-stream';
+        stream.style.left = Math.random() * 100 + 'vw';
+        stream.style.animationDuration = Math.random() * 3 + 2 + 's';
+        
+        for(let i = 0; i < 20; i++) {
+            const char = document.createElement('span');
+            char.textContent = chars[Math.floor(Math.random() * chars.length)];
+            char.style.color = `hsl(120, 100%, ${70 - (i * 3)}%)`;
+            stream.appendChild(char);
+        }
+        
+        container.appendChild(stream);
+        
+        setTimeout(() => stream.remove(), 10000);
+    }
+
+    function matrixLoop() {
+        createStream();
+        if(isMatrixMode) setTimeout(matrixLoop, 100);
+    }
+
+    matrixLoop();
+}
+
+function stopMatrixEffect() {
+    document.querySelectorAll('.matrix-stream').forEach(stream => stream.remove());
+}
+
+// Проверка сохраненной темы
+if(localStorage.getItem('matrixMode') === 'true') {
+    themeToggle.click();
+}

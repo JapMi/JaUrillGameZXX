@@ -2,54 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>CYBERPUNK 2088</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
-    <div class="scanline"></div>
-    <div class="tv-effect"></div>
+    <!-- Визуальные эффекты -->
+    <div class="cyber-overlay">
+        <div class="particles"></div>
+        <div class="scanline"></div>
+        <div class="glitch-overlay"></div>
+    </div>
+    
+    <!-- Панель управления -->
     <div class="controls">
         <div class="mixer">
             <span id="volumeIcon" class="neon-icon">🔊</span>
             <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
         </div>
-        <button id="themeToggle" class="cyber-button small">TOGGLE_THEME</button>
+        <button id="themeToggle" class="cyber-button small">MATRIX MODE</button>
     </div>
-    
+
+    <!-- Основной контент -->
     <div class="container">
-        <h1 class="neon" data-text=">_SYSTEM_ACTIVE">>_SYSTEM_ACTIVE</h1>
+        <!-- Заголовок -->
+        <h1 class="neon glitch" data-text=">_SYSTEM_ACTIVE">>_SYSTEM_ACTIVE</h1>
         
-        <div class="grid"></div>
-
-        <div class="terminal">
+        <!-- Терминал -->
+        <div class="cyber-terminal">
+            <div class="hud">
+                <div class="bar" data-type="cpu"></div>
+                <div class="bar" data-type="ram"></div>
+                <div class="bar" data-type="net"></div>
+            </div>
             <div id="output" class="text-glitch"></div>
-        </div>
-
-        <div class="button-container">
-            <div class="left-buttons">
-                <button class="cyber-button" id="btn1">HACK_MAINFRAME</button>
-                <button class="cyber-button" id="btn2">UPLOAD_DAEMON</button>
-            </div>
-            <div class="right-buttons">
-                <button class="cyber-button" id="btn3">INITIATE_SEQUENCE</button>
-                <button class="cyber-button" id="musicToggle">MUSIC: ON</button>
+            <div class="input-line">
+                <span class="prompt">>_</span>
+                <input type="text" id="commandInput" autocomplete="off">
             </div>
         </div>
 
-        <div class="footer neon">
+        <!-- Кнопки управления -->
+        <div class="button-grid">
+            <button class="cyber-button hologram" id="btn1">
+                <span class="hologram-effect"></span>
+                HACK_MAINFRAME
+            </button>
+            <button class="cyber-button hologram" id="btn2">
+                <span class="hologram-effect"></span>
+                UPLOAD_DAEMON
+            </button>
+            <button class="cyber-button hologram" id="btn3">
+                <span class="hologram-effect"></span>
+                INITIATE_SEQUENCE
+            </button>
+            <div class="cyber-loader" id="systemLoader">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <div class="cyber-footer">
+            <div class="crt-effect"></div>
             <div class="cyber-line"></div>
-            <p>>_COPYRIGHT_2077 JaUrillGameZXX</p>
-            <p>>_ALL_SYSTEMS_OPERATIONAL</p>
+            <p class="matrix-text" data-text="COPYRIGHT_2077_JaUrillGameZXX">>_COPYRIGHT_2077 JaUrillGameZXX</p>
         </div>
     </div>
 
+    <!-- Фоновая музыка -->
     <audio id="backgroundMusic" loop>
         <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/JAMI/JAMI/Along_the_Bright_Alley.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио элементы.
     </audio>
 
+    <!-- Скрипты -->
     <script src="script.js"></script>
-	<meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </body>
 </html>

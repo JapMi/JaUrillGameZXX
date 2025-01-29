@@ -441,29 +441,386 @@ input[type="range"]:disabled {
     }
 }
 
-/* Оптимизация анимаций для мобильных */
-@media (prefers-reduced-motion: reduce) {
-    .scanline,
-    .cyber-line,
+/* Мобильная версия */
+@media (max-width: 767px) {
+    :root {
+        --grid-size: 10px;
+        --base-font: 14px;
+    }
+
+    body {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .container {
+        padding: 8px;
+        min-height: calc(100vh - env(safe-area-inset-bottom));
+    }
+
+    .neon {
+        font-size: 1.6rem;
+        margin: 15px 0;
+        line-height: 1.3;
+    }
+
+    .terminal {
+        width: 96%;
+        min-height: 120px;
+        padding: 12px;
+        margin: 12px 0;
+        border-width: 2px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .left-buttons, .right-buttons {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .cyber-button {
+        width: 100%;
+        min-width: auto;
+        padding: 14px;
+        font-size: 0.9rem;
+        touch-action: manipulation;
+    }
+
+    .controls {
+        top: 5px;
+        left: 5px;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+
+    .mixer {
+        padding: 6px;
+        backdrop-filter: blur(5px);
+    }
+
+    #volume {
+        width: 90px;
+    }
+
+    .footer {
+        position: static;
+        margin-top: auto;
+        padding: 10px;
+        border-top: 1px solid var(--neon-pink);
+    }
+
     .text-glitch {
-        animation: none;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    /* Оптимизация анимаций */
+    .scanline {
+        animation-duration: 4s;
+    }
+
+    .cyber-line {
+        animation: lineScanMobile 6s linear infinite;
+    }
+
+    @keyframes lineScanMobile {
+        0% { transform: translateX(-150%); }
+        100% { transform: translateX(150%); }
     }
 }
 
-/* Улучшение касаний */
-@media (pointer: coarse) {
-    .cyber-button {
-        min-height: 48px;
-        padding: 1.2rem;
-        touch-action: manipulation;
+/* Вертикальная ориентация */
+@media (max-width: 767px) and (orientation: portrait) {
+    .terminal {
+        min-height: 25vh;
+    }
+}
+
+/* Горизонтальная ориентация */
+@media (max-width: 767px) and (orientation: landscape) {
+    .neon {
+        font-size: 1.4rem;
     }
     
-    .cyber-button::after {
-        content: '';
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
+    .terminal {
+        min-height: 15vh;
     }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 360px) {
+    :root {
+        --base-font: 13px;
+    }
+
+    .neon {
+        font-size: 1.3rem;
+    }
+
+    .cyber-button {
+        padding: 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Отключение анимаций при настройке */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* Основные стили остаются как прежде, добавляем новые эффекты */
+
+/* Голографические кнопки */
+.hologram {
+    position: relative;
+    overflow: visible;
+    background: transparent !important;
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 30px var(--neon-cyan);
+}
+
+.hologram-effect {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg,
+        var(--neon-cyan) 0%,
+        var(--neon-pink) 50%,
+        var(--neon-cyan) 100%
+    );
+    z-index: -1;
+    opacity: 0.3;
+    animation: hologram 3s linear infinite;
+}
+
+@keyframes hologram {
+    0% { filter: hue-rotate(0deg); opacity: 0.3; }
+    50% { opacity: 0.6; }
+    100% { filter: hue-rotate(360deg); opacity: 0.3; }
+}
+
+/* Анимированный фон с частицами */
+.particles {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%230ff'/%3E%3C/svg%3E");
+    background-size: 3px 3px;
+    opacity: 0.1;
+    animation: particles 20s linear infinite;
+}
+
+@keyframes particles {
+    from { transform: translateY(0) translateX(0); }
+    to { transform: translateY(-1000px) translateX(1000px); }
+}
+
+/* Эффект старого монитора */
+.crt-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, 
+        rgba(0,255,255,0.1) 0%,
+        rgba(0,255,255,0.1) 3%,
+        transparent 3%,
+        transparent 97%,
+        rgba(0,255,255,0.1) 97%,
+        rgba(0,255,255,0.1) 100%
+    );
+    pointer-events: none;
+    animation: crt 0.1s infinite;
+}
+
+@keyframes crt {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { opacity: 0.9; }
+}
+
+/* Интерактивный терминал */
+.cyber-terminal {
+    border: 3px solid var(--neon-pink);
+    background: rgba(0,0,0,0.9);
+    padding: 20px;
+    position: relative;
+    margin: 20px 0;
+}
+
+.hud {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.bar {
+    height: 8px;
+    width: 100px;
+    background: #002;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--progress);
+    background: var(--neon-cyan);
+    animation: pulse 2s infinite;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#commandInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--neon-cyan);
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    padding: 5px;
+}
+
+#commandInput:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* Анимация загрузки */
+.cyber-loader {
+    height: 10px;
+    background: #002;
+    position: relative;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.loader-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    background: var(--neon-pink);
+    animation: loader 3s infinite;
+    filter: drop-shadow(0 0 10px var(--neon-pink));
+}
+
+@keyframes loader {
+    0% { left: -30%; }
+    100% { left: 130%; }
+}
+
+/* 3D эффекты */
+.cyber-overlay {
+    perspective: 1000px;
+}
+
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,0,255,0.1) 0px,
+        rgba(255,0,255,0.1) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    animation: glitchOverlay 5s infinite;
+    pointer-events: none;
+}
+
+@keyframes glitchOverlay {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+/* Matrix Theme */
+body.matrix-theme {
+    --bg-color: #001100;
+    --text-color: #00ff00;
+    --neon-pink: #00ff00;
+    --neon-cyan: #00ff00;
+    --terminal-bg: rgba(0, 20, 0, 0.9);
+}
+
+body.matrix-theme .scanline {
+    background: rgba(0, 255, 0, 0.3);
+}
+
+body.matrix-theme .cyber-line {
+    background: linear-gradient(90deg, transparent, #00ff00, transparent);
+}
+
+body.matrix-theme .cyber-button {
+    border-color: #00ff00;
+    color: #00ff00;
+}
+
+body.matrix-theme .cyber-button:hover {
+    background: #00ff00;
+    color: #001100;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+.matrix-text {
+    position: relative;
+    overflow: hidden;
+}
+
+.matrix-text::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    color: #00ff00;
+    z-index: -1;
+    animation: matrixGlitch 3s infinite;
+}
+
+@keyframes matrixGlitch {
+    0% { clip-path: inset(10% 0 90% 0); }
+    20% { clip-path: inset(80% 0 1% 0); }
+    40% { clip-path: inset(30% 0 1% 0); }
+    60% { clip-path: inset(10% 0 60% 0); }
+    80% { clip-path: inset(40% 0 1% 0); }
+    100% { clip-path: inset(10% 0 90% 0); }
+}
+.matrix-stream {
+    position: fixed;
+    top: -100px;
+    animation: matrixFall linear infinite;
+    font-family: 'Courier New', monospace;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+}
+
+@keyframes matrixFall {
+    from { transform: translateY(-100vh); }
+    to { transform: translateY(100vh); }
 }
