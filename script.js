@@ -1,7 +1,12 @@
-// script.js (оптимизированная версия)
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.cyber-button');
     const output = document.getElementById('output');
+    const bgMusic = document.getElementById('backgroundMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    
+    // Audio Context initialization
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let musicStarted = false;
     
     const messages = [
         "INITIALIZING NEURAL INTERFACE...",
@@ -15,24 +20,58 @@ document.addEventListener('DOMContentLoaded', () => {
         "OVERRIDE SYSTEM PROTOCOLS"
     ];
 
-    const handleInteraction = (button) => {
-        button.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
-        const randomMsg = messages[Math.random() * messages.length | 0];
+    // Click sound generator
+    const playClickSound = () => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
         
-        output.innerHTML = '';
-        let i = 0;
-        const typeWriter = () => {
-            if (i < randomMsg.length) {
-                output.innerHTML += randomMsg[i++];
-                setTimeout(typeWriter, 50);
-            }
-        }
-        typeWriter();
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1200 + Math.random() * 800, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
         
-        output.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        setTimeout(() => button.style.transform = '', 100);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.start();
+        setTimeout(() => oscillator.stop(), 50);
     };
 
+    // Typewriter effect
+    const typeWriter = (text, element) => {
+        element.innerHTML = '';
+        let i = 0;
+        const type = () => {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, 30 + Math.random() * 40);
+            }
+        };
+        type();
+    };
+
+    // Main interaction handler
+    const handleInteraction = (button) => {
+        if (!musicStarted) {
+            bgMusic.play().catch(() => {});
+            musicStarted = true;
+            musicToggle.textContent = "MUSIC: ON";
+        }
+        
+        playClickSound();
+        button.classList.add('active');
+        
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        typeWriter(randomMsg, output);
+        
+        output.style.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
+        
+        setTimeout(() => {
+            button.classList.remove('active');
+        }, 200);
+    };
+
+    // Event listeners
     buttons.forEach(button => {
         button.addEventListener('click', () => handleInteraction(button));
         button.addEventListener('touchstart', (e) => {
@@ -41,10 +80,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: false });
     });
 
-    const resizeHandler = () => {
+    // Music toggle
+    musicToggle.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            musicToggle.textContent = "MUSIC: ON";
+        } else {
+            bgMusic.pause();
+            musicToggle.textContent = "MUSIC: OFF";
+        }
+        playClickSound();
+    });
+
+    // Mobile viewport height fix
+    const setViewportHeight = () => {
         document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     };
     
-    window.addEventListener('resize', resizeHandler);
-    resizeHandler();
+    window.addEventListener('resize', setViewportHeight);
+    setViewportHeight();
+
+    // Initialize audio context on first interaction
+    document.body.addEventListener('click', () => {
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+    }, { once: true });
 });

@@ -1,8 +1,8 @@
-/* style.css */
 :root {
     --neon-cyan: #0ff;
     --neon-pink: #ff00ff;
     --grid-size: 20px;
+    --base-font: 1rem;
 }
 
 body {
@@ -13,6 +13,7 @@ body {
     color: var(--neon-cyan);
     position: relative;
     touch-action: manipulation;
+    font-size: var(--base-font);
 }
 
 .scanline {
@@ -22,6 +23,7 @@ body {
     background: rgba(0, 255, 255, 0.3);
     animation: scan 3s linear infinite;
     z-index: 999;
+    pointer-events: none;
 }
 
 .container {
@@ -31,6 +33,7 @@ body {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
+    position: relative;
 }
 
 .neon {
@@ -38,20 +41,22 @@ body {
                  0 0 20px var(--neon-cyan),
                  0 0 30px var(--neon-cyan);
     animation: flicker 1s infinite alternate;
-    font-size: 2rem;
+    font-size: calc(var(--base-font) * 2);
     text-align: center;
     margin: 1rem 0;
+    position: relative;
 }
 
 .terminal {
     border: 3px solid var(--neon-pink);
     padding: 1rem;
     margin: 1rem 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     width: 90%;
     max-width: 800px;
     min-height: 150px;
     box-sizing: border-box;
+    backdrop-filter: blur(2px);
 }
 
 .button-group {
@@ -60,6 +65,8 @@ body {
     gap: 1rem;
     justify-content: center;
     margin: 1rem 0;
+    width: 90%;
+    max-width: 800px;
 }
 
 .cyber-button {
@@ -67,12 +74,14 @@ body {
     color: var(--neon-cyan);
     border: 2px solid var(--neon-pink);
     padding: 0.8rem 1.5rem;
-    font-size: 1rem;
+    font-size: calc(var(--base-font) * 0.9);
     cursor: pointer;
     transition: all 0.3s;
     text-transform: uppercase;
     min-width: 200px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .grid {
@@ -89,53 +98,9 @@ body {
     z-index: -1;
 }
 
-@media (max-width: 768px) {
-    :root {
-        --grid-size: 15px;
-    }
-
-    .neon {
-        font-size: 1.5rem;
-    }
-
-    .terminal {
-        min-height: 100px;
-        padding: 0.8rem;
-    }
-
-    .cyber-button {
-        width: 100%;
-        padding: 0.8rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    :root {
-        --grid-size: 10px;
-    }
-
-    .container {
-        padding: 0.5rem;
-    }
-
-    .neon {
-        font-size: 1.2rem;
-        margin: 0.5rem 0;
-    }
-
-    #output {
-        font-size: 0.9rem;
-    }
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .cyber-button:hover {
-        background: var(--neon-pink);
-        color: #000;
-        box-shadow: 0 0 20px var(--neon-pink);
-        transform: skew(-10deg);
-    }
+.text-glitch {
+    animation: glitch 2s infinite;
+    min-height: 100px;
 }
 
 @keyframes scan {
@@ -152,4 +117,44 @@ body {
     0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
     50% { text-shadow: -2px 2px var(--neon-pink), 2px -2px var(--neon-cyan); }
     100% { text-shadow: 2px -2px var(--neon-pink), -2px 2px var(--neon-cyan); }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --grid-size: 15px;
+        --base-font: 0.9rem;
+    }
+
+    .neon {
+        font-size: calc(var(--base-font) * 1.8);
+    }
+
+    .cyber-button {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --grid-size: 10px;
+        --base-font: 0.8rem;
+    }
+
+    .container {
+        padding: 0.5rem;
+    }
+
+    .neon {
+        font-size: calc(var(--base-font) * 1.5);
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cyber-button:hover {
+        background: var(--neon-pink);
+        color: #000;
+        box-shadow: 0 0 20px var(--neon-pink);
+        transform: skew(-10deg);
+    }
 }
