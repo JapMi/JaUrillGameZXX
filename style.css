@@ -1,102 +1,155 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+/* style.css */
+:root {
+    --neon-cyan: #0ff;
+    --neon-pink: #ff00ff;
+    --grid-size: 20px;
 }
 
 body {
-    background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-    min-height: 100vh;
+    background-color: #000;
+    margin: 0;
     overflow-x: hidden;
+    font-family: 'Courier New', monospace;
+    color: var(--neon-cyan);
+    position: relative;
+    touch-action: manipulation;
 }
 
-.curtain {
+.scanline {
+    position: fixed;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.3);
+    animation: scan 3s linear infinite;
+    z-index: 999;
+}
+
+.container {
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.neon {
+    text-shadow: 0 0 10px var(--neon-cyan),
+                 0 0 20px var(--neon-cyan),
+                 0 0 30px var(--neon-cyan);
+    animation: flicker 1s infinite alternate;
+    font-size: 2rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.terminal {
+    border: 3px solid var(--neon-pink);
+    padding: 1rem;
+    margin: 1rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    width: 90%;
+    max-width: 800px;
+    min-height: 150px;
+    box-sizing: border-box;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.cyber-button {
+    background: #000;
+    color: var(--neon-cyan);
+    border: 2px solid var(--neon-pink);
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    min-width: 200px;
+    text-align: center;
+}
+
+.grid {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-    transform: translateY(-100%);
-    animation: curtainOpen 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) forwards;
-}
-
-.nav-panel {
-    position: fixed;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.nav-button {
-    padding: 15px 30px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.nav-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateX(10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.content {
-    position: relative;
-    padding: 100px 20% 50px 200px;
-    color: white;
-    opacity: 0;
-    animation: contentFadeIn 1s ease forwards 1s;
-}
-
-h1 {
-    font-size: 48px;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-p {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-@keyframes curtainOpen {
-    0% {
-        transform: translateY(-100%);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes contentFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    pointer-events: none;
+    z-index: -1;
 }
 
 @media (max-width: 768px) {
-    .nav-panel {
-        left: 15px;
+    :root {
+        --grid-size: 15px;
     }
-    .content {
-        padding: 100px 20px 50px 120px;
+
+    .neon {
+        font-size: 1.5rem;
     }
+
+    .terminal {
+        min-height: 100px;
+        padding: 0.8rem;
+    }
+
+    .cyber-button {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --grid-size: 10px;
+    }
+
+    .container {
+        padding: 0.5rem;
+    }
+
+    .neon {
+        font-size: 1.2rem;
+        margin: 0.5rem 0;
+    }
+
+    #output {
+        font-size: 0.9rem;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cyber-button:hover {
+        background: var(--neon-pink);
+        color: #000;
+        box-shadow: 0 0 20px var(--neon-pink);
+        transform: skew(-10deg);
+    }
+}
+
+@keyframes scan {
+    0% { top: -2px; }
+    100% { top: 100%; }
+}
+
+@keyframes flicker {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+@keyframes glitch {
+    0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
+    50% { text-shadow: -2px 2px var(--neon-pink), 2px -2px var(--neon-cyan); }
+    100% { text-shadow: 2px -2px var(--neon-pink), -2px 2px var(--neon-cyan); }
 }
