@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggle = document.getElementById('musicToggle');
     const volumeControl = document.getElementById('volume');
     const themeToggle = document.getElementById('themeToggle');
+    const volumeIcon = document.getElementById('volumeIcon');
     
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let musicStarted = false;
     let volumeLevel = 0.5;
+    let lastVolume = 0.5;
     
     const messages = [
         "INITIALIZING NEURAL INTERFACE...",
@@ -29,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const playButtonSound = (buttonId) => {
+        if (volumeLevel === 0) return;
+        
         const preset = soundPresets[buttonId];
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -86,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeLevel = parseFloat(savedVolume);
         volumeControl.value = volumeLevel;
         bgMusic.volume = volumeLevel;
+        updateVolumeIcon();
     }
 
     // Обработчики событий
@@ -112,6 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeLevel = e.target.value;
         bgMusic.volume = volumeLevel;
         localStorage.setItem('volume', volumeLevel);
+        updateVolumeIcon();
+    });
+
+    function updateVolumeIcon() {
+        volumeIcon.textContent = volumeLevel > 0 ? '🔊' : '🔇';
+        if (volumeLevel > 0) lastVolume = volumeLevel;
+    }
+
+    volumeIcon.addEventListener('click', () => {
+        if (volumeLevel > 0) {
+            lastVolume = volumeLevel;
+            volumeLevel = 0;
+        } else {
+            volumeLevel = lastVolume;
+        }
+        
+        volumeControl.value = volumeLevel;
+        bgMusic.volume = volumeLevel;
+        localStorage.setItem('volume', volumeLevel);
+        updateVolumeIcon();
+        playButtonSound('btn2');
     });
 
     themeToggle.addEventListener('click', () => {
@@ -119,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('light-theme');
         const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
         localStorage.setItem('theme', theme);
-        playButtonSound('btn2');
+        playButtonSound('btn3');
     });
 
     // Адаптация высоты вьюпорта
@@ -135,4 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
             audioContext.resume();
         }
     }, { once: true });
+
+    // Обработка ошибок аудио
+    bgMusic.addEventListener('error', (e) => {
+        console.error('Audio error:', e);
+        musicToggle.textContent = "MUSIC ERROR";
+        musicToggle.disabled = true;
+    });
 });

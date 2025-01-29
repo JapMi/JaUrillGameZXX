@@ -8,9 +8,10 @@
 </head>
 <body class="dark-theme">
     <div class="scanline"></div>
+    <div class="tv-effect"></div>
     <div class="controls">
         <div class="mixer">
-            <span class="neon-icon">🔊</span>
+            <span id="volumeIcon" class="neon-icon">🔊</span>
             <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
         </div>
         <button id="themeToggle" class="cyber-button small">TOGGLE_THEME</button>
@@ -44,7 +45,7 @@
     </div>
 
     <audio id="backgroundMusic" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-synthetic-computer-122.mp3" type="audio/mpeg">
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/JAMI/JAMI/Along_the_Bright_Alley.mp3" type="audio/mpeg">
     </audio>
 
     <script src="script.js"></script>

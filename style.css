@@ -286,3 +286,19 @@ body {
         transform: skew(-10deg);
     }
 }
+.neon-icon {
+    cursor: pointer;
+    transition: filter 0.3s;
+}
+
+.neon-icon:hover {
+    filter: drop-shadow(0 0 5px var(--neon-cyan));
+}
+
+input[type="range"] {
+    transition: opacity 0.3s;
+}
+
+input[type="range"]:disabled {
+    opacity: 0.5;
+}
