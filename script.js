@@ -3,10 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
     const bgMusic = document.getElementById('backgroundMusic');
     const musicToggle = document.getElementById('musicToggle');
+    const volumeControl = document.getElementById('volume');
+    const themeToggle = document.getElementById('themeToggle');
     
-    // Audio Context initialization
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let musicStarted = false;
+    let volumeLevel = 0.5;
     
     const messages = [
         "INITIALIZING NEURAL INTERFACE...",
@@ -20,23 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
         "OVERRIDE SYSTEM PROTOCOLS"
     ];
 
-    // Click sound generator
-    const playClickSound = () => {
+    const soundPresets = {
+        btn1: { freq: 800, type: 'square', duration: 40 },
+        btn2: { freq: 1200, type: 'sawtooth', duration: 60 },
+        btn3: { freq: 400, type: 'triangle', duration: 80 }
+    };
+
+    const playButtonSound = (buttonId) => {
+        const preset = soundPresets[buttonId];
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
         
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(1200 + Math.random() * 800, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        oscillator.type = preset.type;
+        oscillator.frequency.setValueAtTime(preset.freq, audioContext.currentTime);
         
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        gainNode.gain.setValueAtTime(0.1 * volumeLevel, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + preset.duration * 0.001);
         
+        oscillator.connect(gainNode).connect(audioContext.destination);
         oscillator.start();
-        setTimeout(() => oscillator.stop(), 50);
+        oscillator.stop(audioContext.currentTime + preset.duration * 0.001);
     };
 
-    // Typewriter effect
     const typeWriter = (text, element) => {
         element.innerHTML = '';
         let i = 0;
@@ -50,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         type();
     };
 
-    // Main interaction handler
     const handleInteraction = (button) => {
         if (!musicStarted) {
             bgMusic.play().catch(() => {});
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             musicToggle.textContent = "MUSIC: ON";
         }
         
-        playClickSound();
+        playButtonSound(button.id);
         button.classList.add('active');
         
         const randomMsg = messages[Math.floor(Math.random() * messages.length)];
@@ -71,7 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     };
 
-    // Event listeners
+    // Инициализация настроек
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.add(savedTheme + '-theme');
+    
+    const savedVolume = localStorage.getItem('volume');
+    if (savedVolume) {
+        volumeLevel = parseFloat(savedVolume);
+        volumeControl.value = volumeLevel;
+        bgMusic.volume = volumeLevel;
+    }
+
+    // Обработчики событий
     buttons.forEach(button => {
         button.addEventListener('click', () => handleInteraction(button));
         button.addEventListener('touchstart', (e) => {
@@ -80,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: false });
     });
 
-    // Music toggle
     musicToggle.addEventListener('click', () => {
         if (bgMusic.paused) {
             bgMusic.play();
@@ -89,18 +105,31 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.pause();
             musicToggle.textContent = "MUSIC: OFF";
         }
-        playClickSound();
+        playButtonSound('btn1');
     });
 
-    // Mobile viewport height fix
+    volumeControl.addEventListener('input', (e) => {
+        volumeLevel = e.target.value;
+        bgMusic.volume = volumeLevel;
+        localStorage.setItem('volume', volumeLevel);
+    });
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        document.body.classList.toggle('light-theme');
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        playButtonSound('btn2');
+    });
+
+    // Адаптация высоты вьюпорта
     const setViewportHeight = () => {
         document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     };
-    
     window.addEventListener('resize', setViewportHeight);
     setViewportHeight();
 
-    // Initialize audio context on first interaction
+    // Активация аудио контекста
     document.body.addEventListener('click', () => {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
